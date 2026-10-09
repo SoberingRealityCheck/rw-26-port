@@ -13,7 +13,6 @@ import net.shiroha233.roadweaver.core.model.StructureConnection;
 import net.shiroha233.roadweaver.core.model.StructureInfo;
 import net.shiroha233.roadweaver.generation.progress.InitialGenerationProgressTracker;
 import net.shiroha233.roadweaver.generation.progress.InitialGenerationStage;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.map.tile.core.MapTileCoord;
 import net.shiroha233.roadweaver.map.tile.core.MapTileLayer;
 import net.shiroha233.roadweaver.map.tile.core.MapTileRect;
@@ -36,7 +35,6 @@ import net.shiroha233.roadweaver.planning.terrain.RoadTerrainPlanningPort;
 import net.shiroha233.roadweaver.planning.terrain.AutomaticPlanningSamplingActivities;
 import net.shiroha233.roadweaver.planning.terrain.AutomaticPlanningSamplingBounds;
 import net.shiroha233.roadweaver.planning.terrain.TerrainSamplingSessions;
-import net.shiroha233.roadweaver.network.ServerMapPlanningActivityBridge;
 import net.shiroha233.roadweaver.runtime.ThreadPoolManager;
 import net.shiroha233.roadweaver.search.StructureIndexService;
 import net.shiroha233.roadweaver.util.ComputeService;
@@ -207,11 +205,7 @@ public final class RoadPlanningService {
         if (level == null) {
             return;
         }
-        try {
-            ServerMapPlanningActivityBridge.broadcast(level);
-        } catch (RuntimeException failure) {
-            LOGGER.debug("自动规划采样范围同步失败 dimension={}", level.dimension().location(), failure);
-        }
+        // server-only port: no client map to tell about sampling activity
     }
 
     private static void markPlannedTile(ServerLevel level, long tileKey, int centerChunkX, int centerChunkZ) {
@@ -491,10 +485,7 @@ public final class RoadPlanningService {
         }
         for (StructureConnection connection : incoming) {
             if (connection == null) continue;
-            if (existingKeys.add(PlannedPathKey.of(connection))) {
-                MapPatchService.publishConnection(level,
-                        new StructureConnection(connection.from(), connection.to(), ConnectionStatus.PLANNED));
-            }
+            existingKeys.add(PlannedPathKey.of(connection));
         }
     }
 

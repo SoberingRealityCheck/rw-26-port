@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStr
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.shiroha233.roadweaver.config.ConfigService;
 import net.shiroha233.roadweaver.core.model.StructureInfo;
@@ -155,7 +155,7 @@ public final class StructurePredictor {
                 Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                 if (key.isEmpty())
                     continue;
-                ResourceLocation id = key.get().location();
+                Identifier id = key.get().location();
                 if (filters.matches(structureHolder, id)) {
                     matchedStructures.add(structureHolder);
                 }
@@ -169,7 +169,7 @@ public final class StructurePredictor {
                     Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                     if (key.isEmpty())
                         continue;
-                    ResourceLocation id = key.get().location();
+                    Identifier id = key.get().location();
                     if (!filters.isBlacklisted(structureHolder, id)) {
                         matchedStructures.add(structureHolder);
                     }
@@ -179,7 +179,7 @@ public final class StructurePredictor {
             }
 
             String labelId = matchedStructures.stream()
-                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(ResourceLocation::toString)
+                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
                             .orElse("structure"))
                     .findFirst().orElse("structure");
 
@@ -246,7 +246,7 @@ public final class StructurePredictor {
                     String chosenId = labelId;
                     for (Holder<Structure> h : matchedStructures) {
                         if (h.value().biomes().contains(sample)) {
-                            chosenId = h.unwrapKey().map(ResourceKey::location).map(ResourceLocation::toString)
+                            chosenId = h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
                                     .orElse(labelId);
                             break;
                         }
@@ -296,7 +296,7 @@ public final class StructurePredictor {
                 Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                 if (key.isEmpty())
                     continue;
-                ResourceLocation id = key.get().location();
+                Identifier id = key.get().location();
                 if (filters.matches(structureHolder, id)) {
                     matchedStructures.add(structureHolder);
                 }
@@ -310,7 +310,7 @@ public final class StructurePredictor {
                     Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                     if (key.isEmpty())
                         continue;
-                    ResourceLocation id = key.get().location();
+                    Identifier id = key.get().location();
                     if (!filters.isBlacklisted(structureHolder, id)) {
                         matchedStructures.add(structureHolder);
                     }
@@ -336,7 +336,7 @@ public final class StructurePredictor {
             int endJ = Math.floorDiv(maxZ, spacing);
 
             String labelId = matchedStructures.stream()
-                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(ResourceLocation::toString)
+                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
                             .orElse("structure"))
                     .findFirst().orElse("structure");
 
@@ -363,7 +363,7 @@ public final class StructurePredictor {
                     String chosenId = labelId;
                     for (Holder<Structure> h : matchedStructures) {
                         if (h.value().biomes().contains(sample)) {
-                            chosenId = h.unwrapKey().map(ResourceKey::location).map(ResourceLocation::toString)
+                            chosenId = h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
                                     .orElse(labelId);
                             break;
                         }
@@ -399,24 +399,24 @@ public final class StructurePredictor {
             return !whitelist.isEmpty();
         }
 
-        boolean matches(Holder<Structure> holder, ResourceLocation id) {
+        boolean matches(Holder<Structure> holder, Identifier id) {
             boolean whiteOk = whitelist.isEmpty() || whitelist.stream().anyMatch(p -> matchesPattern(holder, id, p));
             boolean blackHit = blacklist.stream().anyMatch(p -> matchesPattern(holder, id, p));
             return whiteOk && !blackHit;
         }
 
-        boolean isBlacklisted(Holder<Structure> holder, ResourceLocation id) {
+        boolean isBlacklisted(Holder<Structure> holder, Identifier id) {
             return blacklist.stream().anyMatch(p -> matchesPattern(holder, id, p));
         }
 
-        private boolean matchesPattern(Holder<Structure> holder, ResourceLocation id, String pattern) {
+        private boolean matchesPattern(Holder<Structure> holder, Identifier id, String pattern) {
             if (pattern == null || pattern.isEmpty())
                 return false;
             String p = pattern.trim().toLowerCase(Locale.ROOT);
             String idStr = id.toString().toLowerCase(Locale.ROOT);
             if (p.startsWith("#")) {
                 String raw = p.substring(1);
-                ResourceLocation tagId = ResourceLocation.tryParse(raw);
+                Identifier tagId = Identifier.tryParse(raw);
                 if (tagId == null)
                     return false;
                 TagKey<Structure> tag = TagKey.create(Registries.STRUCTURE, tagId);

@@ -6,7 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.JigsawBlock;
@@ -57,10 +57,10 @@ public final class RoadsideVillageJigsawPlanner {
     private static Optional<PoolElementStructurePiece> createPieceForSlot(Registry<StructureTemplatePool> pools,
                                                                          StructureTemplateManager templateManager,
                                                                          PendingRoadsideVillageSlot slot,
-                                                                         ResourceLocation style,
+                                                                         Identifier style,
                                                                          RandomSource random,
                                                                          List<BoundingBox> occupied) {
-        ResourceLocation poolId = slot.poolId(style);
+        Identifier poolId = slot.poolId(style);
         ResourceKey<StructureTemplatePool> poolKey = ResourceKey.create(Registries.TEMPLATE_POOL, poolId);
         Optional<Holder.Reference<StructureTemplatePool>> holder = pools.getHolder(poolKey);
         if (holder.isEmpty() || holder.get().value().size() == 0) {

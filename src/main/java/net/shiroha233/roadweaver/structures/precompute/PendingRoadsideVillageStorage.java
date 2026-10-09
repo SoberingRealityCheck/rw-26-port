@@ -1,6 +1,6 @@
 package net.shiroha233.roadweaver.structures.precompute;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -20,10 +20,10 @@ public final class PendingRoadsideVillageStorage {
 
     private static final int MAX_INJECTED = 2048;
     private static final Map<Long, List<PendingRoadsideVillage>> PENDING = new ConcurrentHashMap<>();
-    private static final Set<ResourceLocation> PLACED = createPlacementSet();
+    private static final Set<Identifier> PLACED = createPlacementSet();
     private static final Set<Long> INJECTED_CHUNKS = createLimitedChunkSet();
 
-    private static Set<ResourceLocation> createPlacementSet() {
+    private static Set<Identifier> createPlacementSet() {
         return Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 

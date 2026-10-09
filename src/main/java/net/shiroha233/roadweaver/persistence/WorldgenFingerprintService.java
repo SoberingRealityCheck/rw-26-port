@@ -9,7 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
@@ -64,7 +64,7 @@ public final class WorldgenFingerprintService {
                 schemaVersion);
     }
 
-    public static WorldgenFingerprint create(ResourceLocation dimension,
+    public static WorldgenFingerprint create(Identifier dimension,
                                              long seed,
                                              String generatorIdentity,
                                              HolderLookup.Provider registries,

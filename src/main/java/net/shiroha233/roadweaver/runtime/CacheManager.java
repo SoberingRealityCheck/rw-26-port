@@ -7,11 +7,6 @@ import net.shiroha233.roadweaver.features.path.decoration.text.SignTextService;
 import net.shiroha233.roadweaver.pathfinding.cache.AccurateHeightSampler;
 import net.shiroha233.roadweaver.pathfinding.cache.AccurateSamplingStats;
 import net.shiroha233.roadweaver.pathfinding.cache.TerrainSamplingStats;
-import net.shiroha233.roadweaver.pathfinding.cache.opencl.OpenCLAccurateProgramCache;
-import net.shiroha233.roadweaver.pathfinding.cache.opencl.OpenCLAvailability;
-import net.shiroha233.roadweaver.pathfinding.cache.opencl.OpenCLCoarseHeightBatchSampler;
-import net.shiroha233.roadweaver.pathfinding.cache.opencl.OpenCLRuntime;
-import net.shiroha233.roadweaver.pathfinding.cache.opencl.OpenCLWorldSupport;
 import net.shiroha233.roadweaver.pathfinding.terrain.region.CoarseTerrainTileCache;
 import net.shiroha233.roadweaver.persistence.RoadSpatialIndex;
 import net.shiroha233.roadweaver.persistence.WorldgenFingerprintService;
@@ -48,9 +43,6 @@ public final class CacheManager {
         WorldgenFingerprintService.clearMemo();
         TerrainSamplingStats.reset();
         AccurateSamplingStats.reset();
-        OpenCLAvailability.reset();
-        OpenCLCoarseHeightBatchSampler.clearProgramCache();
-        OpenCLWorldSupport.clear();
         TerrainSamplingSessions.clearAll();
         AutomaticPlanningSamplingActivities.clearAll();
         RoadWorldgenPlanCache.clearAll();
@@ -98,8 +90,6 @@ public final class CacheManager {
         AccurateHeightSampler.clearAll();
         PlannedPathCache.clearAll();
         CoarseTerrainTileCache.clearAll();
-        OpenCLRuntime.closeAll();
-        OpenCLWorldSupport.clear();
 
         LOGGER.debug("CacheManager: 所有缓存已清理");
     }
@@ -122,11 +112,6 @@ public final class CacheManager {
         AccurateHeightSampler.clearForLevel(level);
         PlannedPathCache.clear(level);
         RoadWorldgenPlanCache.clear(level);
-        try {
-            OpenCLAccurateProgramCache.clear(level.getChunkSource().getGeneratorState().randomState());
-        } catch (Throwable failure) {
-            LOGGER.debug("清理维度 {} OpenCL 精采样程序失败", level.dimension().location(), failure);
-        }
         if (!Level.OVERWORLD.equals(level.dimension())) return;
 
         try {

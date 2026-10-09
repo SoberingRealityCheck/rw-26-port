@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.architectury.platform.Platform;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -109,7 +109,7 @@ public final class PresetService {
         List<String> valid = new ArrayList<>();
         for (String s : ids) {
             try {
-                ResourceLocation rl = ResourceLocation.parse(s);
+                Identifier rl = Identifier.parse(s);
                 Block b = BuiltInRegistries.BLOCK.get(rl);
                 if (b != null && b != Blocks.AIR)
                     valid.add(s);
@@ -212,7 +212,7 @@ public final class PresetService {
             return out;
         for (String s : ids) {
             try {
-                ResourceLocation rl = ResourceLocation.parse(s);
+                Identifier rl = Identifier.parse(s);
                 Block b = BuiltInRegistries.BLOCK.get(rl);
                 if (b != null && b != Blocks.AIR)
                     out.add(b.defaultBlockState());
@@ -230,7 +230,7 @@ public final class PresetService {
             return out;
         for (String s : ids) {
             try {
-                ResourceLocation rl = ResourceLocation.parse(s);
+                Identifier rl = Identifier.parse(s);
                 Block b = BuiltInRegistries.BLOCK.get(rl);
                 if (b != null && b != Blocks.AIR)
                     out.add(b.defaultBlockState());
@@ -248,7 +248,7 @@ public final class PresetService {
         return toBlockStatesAllowEmpty(ids);
     }
 
-    public static synchronized PresetDef findNaturalPresetForBiome(net.minecraft.resources.ResourceLocation biomeId) {
+    public static synchronized PresetDef findNaturalPresetForBiome(net.minecraft.resources.Identifier biomeId) {
         if (biomeId == null)
             return null;
         if (PRESETS.get().isEmpty())

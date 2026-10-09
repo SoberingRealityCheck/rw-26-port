@@ -2,7 +2,7 @@
 package net.shiroha233.roadweaver.generation;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -49,7 +49,7 @@ public final class RoadGenerationService {
         return CURRENT_TICK;
     }
 
-    private static final ResourceLocation ROAD_CF_ID = ResourceLocation.fromNamespaceAndPath("roadweaver", "road_feature");
+    private static final Identifier ROAD_CF_ID = Identifier.fromNamespaceAndPath("roadweaver", "road_feature");
 
     public static void onServerStarted() {
         ALL_RUNNING.clear();

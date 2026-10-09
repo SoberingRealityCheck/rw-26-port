@@ -6,7 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -32,13 +32,13 @@ public final class BridgeTemplateStructureRegistry {
     private static volatile List<BridgeTemplate> cache;
 
     public static class BridgeTemplate {
-        private final ResourceLocation id;
+        private final Identifier id;
         private final Holder<Structure> holder;
         private final BridgeTemplateStructure structure;
         private BlockState[][][] voxelGrid = new BlockState[0][0][0];
         private Vec3i size = new Vec3i(0, 0, 0);
 
-        public BridgeTemplate(ResourceLocation id, Holder<Structure> holder, BridgeTemplateStructure structure,
+        public BridgeTemplate(Identifier id, Holder<Structure> holder, BridgeTemplateStructure structure,
                 ServerLevel level) {
             this.id = id;
             this.holder = holder;
@@ -102,7 +102,7 @@ public final class BridgeTemplateStructureRegistry {
             return size.getX();
         }
 
-        public ResourceLocation getId() {
+        public Identifier getId() {
             return id;
         }
 
@@ -143,7 +143,7 @@ public final class BridgeTemplateStructureRegistry {
             if (!pTag.contains("Name", 8)) {
                 return Blocks.AIR.defaultBlockState();
             } else {
-                ResourceLocation resourcelocation = ResourceLocation.parse(pTag.getString("Name"));
+                Identifier resourcelocation = Identifier.parse(pTag.getString("Name"));
                 Optional<? extends Holder<Block>> optional = BuiltInRegistries.BLOCK.asLookup().get(ResourceKey.create(Registries.BLOCK, resourcelocation));
                 if (optional.isEmpty()) {
                     return Blocks.AIR.defaultBlockState();
@@ -230,7 +230,7 @@ public final class BridgeTemplateStructureRegistry {
         Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
 
         for (var entry : structureRegistry.entrySet()) {
-            ResourceLocation id = entry.getKey().location();
+            Identifier id = entry.getKey().location();
             Structure structure = entry.getValue();
 
             if (structure instanceof BridgeTemplateStructure roadsideStructure) {

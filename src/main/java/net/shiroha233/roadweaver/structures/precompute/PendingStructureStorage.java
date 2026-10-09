@@ -1,7 +1,7 @@
 package net.shiroha233.roadweaver.structures.precompute;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -37,7 +37,7 @@ public final class PendingStructureStorage {
     }
     
     public static void addPendingStructure(ServerLevel level, 
-                                           ResourceLocation structureId,
+                                           Identifier structureId,
                                            BlockPos anchor, 
                                            Rotation rotation,
                                            int sizeX, int sizeY, int sizeZ) {

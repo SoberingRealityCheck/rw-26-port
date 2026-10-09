@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -21,7 +21,7 @@ import net.shiroha233.roadweaver.structures.types.SpawnCabinStructure;
 public final class SpawnCabinPlacer {
     private SpawnCabinPlacer() {}
     
-    private static final ResourceLocation STRUCTURE_ID = ResourceLocation.fromNamespaceAndPath("roadweaver", "spawn_cabin");
+    private static final Identifier STRUCTURE_ID = Identifier.fromNamespaceAndPath("roadweaver", "spawn_cabin");
     
     public static boolean ensurePlaced(ServerLevel level) {
         if (level == null) return false;

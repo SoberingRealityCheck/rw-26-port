@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 结构生物生成规则
  */
 public record MobSpawnRule(
-    ResourceLocation entityId,
+    Identifier entityId,
     int countMin,
     int countMax,
     Vec3i offset,
@@ -33,11 +33,11 @@ public record MobSpawnRule(
 
     private static final Logger LOGGER = LoggerFactory.getLogger("RoadWeaver/MobSpawnRule");
 
-    private static final Set<ResourceLocation> MISSING_ENTITY_LOGGED = ConcurrentHashMap.newKeySet();
+    private static final Set<Identifier> MISSING_ENTITY_LOGGED = ConcurrentHashMap.newKeySet();
     
     public static final Codec<MobSpawnRule> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
-            ResourceLocation.CODEC
+            Identifier.CODEC
                 .fieldOf("entity")
                 .forGetter(MobSpawnRule::entityId),
             Codec.INT.optionalFieldOf("count_min", 1)
@@ -108,18 +108,18 @@ public record MobSpawnRule(
     }
     
     public static final MobSpawnRule SINGLE_VILLAGER = new MobSpawnRule(
-        ResourceLocation.fromNamespaceAndPath("minecraft", "villager"), 1, 1, new Vec3i(0, 1, 0), 1.0f
+        Identifier.fromNamespaceAndPath("minecraft", "villager"), 1, 1, new Vec3i(0, 1, 0), 1.0f
     );
     
     public static final MobSpawnRule VILLAGERS = new MobSpawnRule(
-        ResourceLocation.fromNamespaceAndPath("minecraft", "villager"), 1, 2, new Vec3i(0, 1, 0), 1.0f
+        Identifier.fromNamespaceAndPath("minecraft", "villager"), 1, 2, new Vec3i(0, 1, 0), 1.0f
     );
     
     public static final MobSpawnRule CAT = new MobSpawnRule(
-        ResourceLocation.fromNamespaceAndPath("minecraft", "cat"), 1, 1, new Vec3i(0, 1, 0), 0.5f
+        Identifier.fromNamespaceAndPath("minecraft", "cat"), 1, 1, new Vec3i(0, 1, 0), 0.5f
     );
     
     public static final MobSpawnRule IRON_GOLEM = new MobSpawnRule(
-        ResourceLocation.fromNamespaceAndPath("minecraft", "iron_golem"), 1, 1, new Vec3i(0, 1, 0), 0.3f
+        Identifier.fromNamespaceAndPath("minecraft", "iron_golem"), 1, 1, new Vec3i(0, 1, 0), 0.3f
     );
 }

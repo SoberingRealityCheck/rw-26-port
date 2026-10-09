@@ -9,7 +9,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -47,7 +47,7 @@ public class SimpleTemplatePiece extends TemplateStructurePiece {
     
     private static final Logger LOGGER = LoggerFactory.getLogger("RoadWeaver/SimpleTemplatePiece");
     
-    private final ResourceLocation templateId;
+    private final Identifier templateId;
     private final List<MobSpawnRule> mobSpawns;
     private final List<LootConfig> lootConfigs;
     
@@ -56,7 +56,7 @@ public class SimpleTemplatePiece extends TemplateStructurePiece {
     private boolean mobsSpawned = false;
     
     public SimpleTemplatePiece(StructureTemplateManager manager,
-                               ResourceLocation templateId,
+                               Identifier templateId,
                                BlockPos pos,
                                Rotation rotation,
                                Mirror mirror) {
@@ -64,7 +64,7 @@ public class SimpleTemplatePiece extends TemplateStructurePiece {
     }
     
     public SimpleTemplatePiece(StructureTemplateManager manager,
-                               ResourceLocation templateId,
+                               Identifier templateId,
                                BlockPos pos,
                                Rotation rotation,
                                Mirror mirror,
@@ -90,7 +90,7 @@ public class SimpleTemplatePiece extends TemplateStructurePiece {
                   Rotation.valueOf(tag.getString("Rot")),
                   Mirror.valueOf(tag.getString("Mir"))
               ));
-        this.templateId = ResourceLocation.tryParse(tag.getString("Template"));
+        this.templateId = Identifier.tryParse(tag.getString("Template"));
         this.mobSpawns = deserializeMobSpawns(tag);
         this.lootConfigs = deserializeLootConfigs(tag);
     }
@@ -251,7 +251,7 @@ public class SimpleTemplatePiece extends TemplateStructurePiece {
          }
      }
     
-    public ResourceLocation getTemplateId() {
+    public Identifier getTemplateId() {
         return templateId;
     }
     

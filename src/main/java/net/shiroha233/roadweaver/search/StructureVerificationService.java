@@ -1,7 +1,7 @@
 package net.shiroha233.roadweaver.search;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
@@ -87,7 +87,7 @@ public final class StructureVerificationService {
                 continue;
             }
 
-            ResourceLocation rl = ResourceLocation.tryParse(idStr);
+            Identifier rl = Identifier.tryParse(idStr);
             if (rl == null) {
                 result.add(info);
                 continue;
