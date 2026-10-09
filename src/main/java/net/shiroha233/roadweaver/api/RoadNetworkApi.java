@@ -8,7 +8,6 @@ import net.shiroha233.roadweaver.core.model.StructureConnection;
 import net.shiroha233.roadweaver.core.model.StructureInfo;
 import net.shiroha233.roadweaver.core.model.StructureLocationData;
 import net.shiroha233.roadweaver.generation.RoadGenerationService;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.persistence.WorldDataProvider;
 import net.shiroha233.roadweaver.persistence.files.StructureFileStorage;
 import net.shiroha233.roadweaver.planning.RoadPlanningService;
@@ -117,7 +116,6 @@ public final class RoadNetworkApi {
             StructureConnection connection = new StructureConnection(from, to, ConnectionStatus.PLANNED);
             list.add(connection);
             provider.setStructureConnections(level, list);
-            MapPatchService.publishConnection(level, connection);
         }
 
         if (generateImmediately) {

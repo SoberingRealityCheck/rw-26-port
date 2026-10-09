@@ -9,7 +9,6 @@ import net.shiroha233.roadweaver.config.ConfigService;
 import net.shiroha233.roadweaver.config.ModConfig;
 import net.shiroha233.roadweaver.core.model.ConnectionStatus;
 import net.shiroha233.roadweaver.core.model.StructureConnection;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.persistence.WorldDataProvider;
 import net.shiroha233.roadweaver.planning.PlanningUtils;
 import net.shiroha233.roadweaver.planning.path.PlannedPathKey;
@@ -323,10 +322,6 @@ public final class IdleRoadGenerationService {
             StructureConnection updated = new StructureConnection(c.from(), c.to(), to);
             all.set(i, updated);
             provider.setStructureConnections(level, all);
-            MapPatchService.publishConnection(level, updated);
-            if (to == ConnectionStatus.COMPLETED) {
-                MapPatchService.publishRoadForConnectionAsync(level, updated);
-            }
             return true;
         }
         return false;

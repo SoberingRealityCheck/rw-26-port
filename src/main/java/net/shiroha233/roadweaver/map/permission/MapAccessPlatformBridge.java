@@ -1,6 +1,6 @@
 package net.shiroha233.roadweaver.map.permission;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.shiroha233.roadweaver.map.permission.fabric.MapAccessPlatformBridgeImpl;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -8,23 +8,19 @@ public final class MapAccessPlatformBridge {
     private MapAccessPlatformBridge() {
     }
 
-    @ExpectPlatform
     public static MapAccessPolicy getPolicy(MinecraftServer server) {
-        throw new AssertionError();
+        return MapAccessPlatformBridgeImpl.getPolicy(server);
     }
 
-    @ExpectPlatform
     public static void setPolicy(MinecraftServer server, MapAccessPolicy policy) {
-        throw new AssertionError();
+        MapAccessPlatformBridgeImpl.setPolicy(server, policy);
     }
 
-    @ExpectPlatform
     public static void syncPlayer(ServerPlayer player) {
-        throw new AssertionError();
+        MapAccessPlatformBridgeImpl.syncPlayer(player);
     }
 
-    @ExpectPlatform
     public static void syncAll(MinecraftServer server) {
-        throw new AssertionError();
+        MapAccessPlatformBridgeImpl.syncAll(server);
     }
 }

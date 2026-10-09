@@ -2,7 +2,7 @@ package net.shiroha233.roadweaver.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dev.architectury.platform.Platform;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -46,7 +46,7 @@ public final class PresetService {
     }
 
     public static synchronized void reload() {
-        Path cfgRoot = Platform.getConfigFolder();
+        Path cfgRoot = FabricLoader.getInstance().getConfigDir();
         Path baseDir = cfgRoot.resolve(BASE_DIR);
         Path presetDir = baseDir.resolve(PRESET_DIR);
         Map<String, PresetDef> map = new LinkedHashMap<>();
@@ -282,7 +282,7 @@ public final class PresetService {
         if (id == null || id.isBlank()) {
             return;
         }
-        Path cfgRoot = Platform.getConfigFolder();
+        Path cfgRoot = FabricLoader.getInstance().getConfigDir();
         Path baseDir = cfgRoot.resolve(BASE_DIR);
         Path presetDir = baseDir.resolve(PRESET_DIR);
         try {
@@ -308,7 +308,7 @@ public final class PresetService {
         if (id == null || id.isBlank()) {
             return;
         }
-        Path cfgRoot = Platform.getConfigFolder();
+        Path cfgRoot = FabricLoader.getInstance().getConfigDir();
         Path baseDir = cfgRoot.resolve(BASE_DIR);
         Path presetDir = baseDir.resolve(PRESET_DIR);
         try {

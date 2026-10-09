@@ -2,8 +2,7 @@ package net.shiroha233.roadweaver.config.structure;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -85,7 +84,7 @@ public final class StructureDiscoveryService {
     public static void discoverFromRegistries(Registry<Structure> structureRegistry, Registry<LevelStem> levelStemRegistry) {
         if (structureRegistry == null || levelStemRegistry == null) return;
         try {
-            LevelStem overworldStem = levelStemRegistry.get(LevelStem.OVERWORLD);
+            LevelStem overworldStem = levelStemRegistry.getValue(LevelStem.OVERWORLD);
             if (overworldStem == null) {
                 LOGGER.warn("无法发现结构: 缺少主世界维度数据");
                 return;
@@ -149,7 +148,8 @@ public final class StructureDiscoveryService {
     }
 
     public static void tryDiscoverFromCurrentContext() {
-        if (Platform.getEnvironment() != Env.CLIENT) {
+        // server-only port: there is no client registry to read from
+        if (true) {
             return;
         }
 
@@ -225,14 +225,14 @@ public final class StructureDiscoveryService {
     private static List<StructureTagEntry> collectTags(Registry<Structure> registry, Map<Identifier, StructureEntry> structureMap) {
         List<StructureTagEntry> tagEntries = new ArrayList<>();
         Set<Identifier> processedTags = new HashSet<>();
-        for (Holder.Reference<Structure> holder : registry.holders().toList()) {
+        for (Holder.Reference<Structure> holder : registry.listElements().toList()) {
             holder.tags().forEach(tagKey -> {
                 Identifier tagId = tagKey.location();
                 if (processedTags.contains(tagId)) return;
                 processedTags.add(tagId);
 
                 List<StructureEntry> tagStructures = new ArrayList<>();
-                for (Holder.Reference<Structure> h : registry.holders().toList()) {
+                for (Holder.Reference<Structure> h : registry.listElements().toList()) {
                     if (h.is(tagKey)) {
                         StructureEntry se = structureMap.get(h.key().identifier());
                         if (se != null) tagStructures.add(se);
@@ -266,7 +266,7 @@ public final class StructureDiscoveryService {
     // ==================== 缓存文件操作 ====================
 
     private static Path getCacheFilePath() {
-        return Platform.getConfigFolder().resolve("roadweaver").resolve(CACHE_FILE);
+        return FabricLoader.getInstance().getConfigDir().resolve("roadweaver").resolve(CACHE_FILE);
     }
 
     private static void saveCacheToFile() {

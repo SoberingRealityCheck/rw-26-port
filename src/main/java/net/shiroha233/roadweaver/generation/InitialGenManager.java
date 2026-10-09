@@ -10,7 +10,6 @@ import net.shiroha233.roadweaver.core.model.StructureConnection;
 import net.shiroha233.roadweaver.generation.progress.InitialGenerationProgressSnapshot;
 import net.shiroha233.roadweaver.generation.progress.InitialGenerationProgressTracker;
 import net.shiroha233.roadweaver.generation.progress.InitialGenerationStage;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.persistence.RoadPositionQuery;
 import net.shiroha233.roadweaver.persistence.WorldDataProvider;
 import net.shiroha233.roadweaver.persistence.sharded.RoadShardStorage;
@@ -206,10 +205,6 @@ public final class InitialGenManager {
         if (changed) {
             provider.setStructureConnections(level, updated);
             for (StructureConnection changedConnection : changedConnections) {
-                MapPatchService.publishConnection(level, changedConnection);
-                if (changedConnection.status() == ConnectionStatus.COMPLETED) {
-                    MapPatchService.publishRoadForConnectionAsync(level, changedConnection);
-                }
             }
         }
     }

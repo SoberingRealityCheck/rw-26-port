@@ -15,7 +15,6 @@ import net.shiroha233.roadweaver.core.model.RoadData;
 import net.shiroha233.roadweaver.core.model.StructureConnection;
 import net.shiroha233.roadweaver.features.path.config.PathFeatureConfig;
 import net.shiroha233.roadweaver.features.path.pathlogic.core.Road;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.pathfinding.terrain.region.CoarseTerrainTileCache;
 import net.shiroha233.roadweaver.persistence.WorldDataProvider;
 import net.shiroha233.roadweaver.planning.PlanningUtils;
@@ -199,10 +198,6 @@ public final class RoadGenerationService {
         }
         provider.setStructureConnections(level, all);
         if (updated != null) {
-            MapPatchService.publishConnection(level, updated);
-            if (status == ConnectionStatus.COMPLETED) {
-                MapPatchService.publishRoadForConnectionAsync(level, updated);
-            }
         }
     }
 

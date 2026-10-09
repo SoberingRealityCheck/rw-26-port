@@ -6,7 +6,6 @@ import net.minecraft.world.level.Level;
 import net.shiroha233.roadweaver.config.ConfigService;
 import net.shiroha233.roadweaver.config.ModConfig;
 import net.shiroha233.roadweaver.core.model.StructureInfo;
-import net.shiroha233.roadweaver.map.MapPatchService;
 import net.shiroha233.roadweaver.persistence.files.StructureFileStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +92,6 @@ public final class StructureIndexService {
                 verifiedTotal += verified != null ? verified.size() : 0;
                 if (verified != null && !verified.isEmpty()) {
                     StructureFileStorage.addStructures(level, verified, StructureFileStorage.SOURCE_PREDICTED);
-                    MapPatchService.publishStructures(level, verified);
                 }
                 StructureFileStorage.markScanWindowDone(level, cminx, cminz, cmaxx, cmaxz);
             } catch (Throwable t) {

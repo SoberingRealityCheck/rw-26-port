@@ -1,6 +1,6 @@
 package net.shiroha233.roadweaver.persistence;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.shiroha233.roadweaver.persistence.fabric.WorldDataProviderImpl;
 import net.shiroha233.roadweaver.core.model.StructureConnection;
 import net.shiroha233.roadweaver.core.model.StructureInfo;
 import net.shiroha233.roadweaver.core.model.StructureLocationData;
@@ -17,9 +17,8 @@ import java.util.Set;
  */
 public abstract class WorldDataProvider {
 
-    @ExpectPlatform
     public static WorldDataProvider getInstance() {
-        throw new AssertionError();
+        return WorldDataProviderImpl.getInstance();
     }
 
     public abstract StructureLocationData getStructureLocations(ServerLevel level);

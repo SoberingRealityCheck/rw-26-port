@@ -2,7 +2,7 @@ package net.shiroha233.roadweaver.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dev.architectury.platform.Platform;
+import net.fabricmc.loader.api.FabricLoader;
 import net.shiroha233.roadweaver.persistence.files.FileStorageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public final class ConfigService {
     private ConfigService() {}
 
     public static synchronized void load() {
-        Path baseDir = Platform.getConfigFolder().resolve(BASE_DIR);
+        Path baseDir = FabricLoader.getInstance().getConfigDir().resolve(BASE_DIR);
         Path file = baseDir.resolve(FILE_NAME);
         ensureDirectory(baseDir);
 
@@ -53,7 +53,7 @@ public final class ConfigService {
     }
 
     public static synchronized void save() {
-        Path baseDir = Platform.getConfigFolder().resolve(BASE_DIR);
+        Path baseDir = FabricLoader.getInstance().getConfigDir().resolve(BASE_DIR);
         Path file = baseDir.resolve(FILE_NAME);
         ensureDirectory(baseDir);
 
