@@ -124,7 +124,7 @@ public final class RoadGenerationService {
 
             var reg = level.registryAccess()
                     .lookupOrThrow(net.minecraft.core.registries.Registries.CONFIGURED_FEATURE);
-            ConfiguredFeature<?, ?> cf = reg.get(ROAD_CF_ID);
+            ConfiguredFeature<?, ?> cf = reg.getValue(ROAD_CF_ID);
             PathFeatureConfig cfg = (cf != null && cf.config() instanceof PathFeatureConfig rfc) ? rfc : new PathFeatureConfig();
 
             if (Thread.currentThread().isInterrupted()) return false;

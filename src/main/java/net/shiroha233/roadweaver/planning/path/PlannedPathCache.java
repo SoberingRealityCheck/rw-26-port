@@ -113,7 +113,7 @@ public final class PlannedPathCache {
         synchronized (BY_LEVEL) {
             return BY_LEVEL.computeIfAbsent(level, ignored -> new LinkedHashMap<>(128, 0.75f, true) {
                 @Override
-                protected boolean removeEldestEntry(Map.Entry<PlannedPathKey, Entry> eldest) {
+                protected boolean removeEldestEntry(Map.Entry<PlannedPathKey, PlannedPathCache.Entry> eldest) {
                     return size() > MAX_ENTRIES_PER_LEVEL;
                 }
             });

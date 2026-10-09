@@ -47,7 +47,7 @@ public final class RoadsideStructureRegistry {
             Structure structure = entry.getValue();
             
             if (structure instanceof RoadsideStructure roadsideStructure) {
-                Holder<Structure> holder = structureRegistry.getHolderOrThrow(entry.getKey());
+                Holder<Structure> holder = structureRegistry.getOrThrow(entry.getKey());
                 result.add(new RoadsideStructureEntry(id, holder, roadsideStructure));
             }
         }

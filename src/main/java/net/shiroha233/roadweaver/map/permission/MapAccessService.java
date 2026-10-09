@@ -21,10 +21,10 @@ public final class MapAccessService {
         if (player == null) {
             return false;
         }
-        if (player.hasPermissions(2)) {
+        if (player.permissions().hasPermission(net.minecraft.server.permissions.Permissions.COMMANDS_GAMEMASTER)) {
             return true;
         }
-        MapAccessPolicy policy = getPolicy(player.getServer());
+        MapAccessPolicy policy = getPolicy(player.level().getServer());
         if (policy.mode() == MapAccessMode.ALL_PLAYERS) {
             return true;
         }

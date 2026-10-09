@@ -110,7 +110,7 @@ public final class PresetService {
         for (String s : ids) {
             try {
                 Identifier rl = Identifier.parse(s);
-                Block b = BuiltInRegistries.BLOCK.get(rl);
+                Block b = BuiltInRegistries.BLOCK.getValue(rl);
                 if (b != null && b != Blocks.AIR)
                     valid.add(s);
             } catch (Throwable ignored) {
@@ -213,7 +213,7 @@ public final class PresetService {
         for (String s : ids) {
             try {
                 Identifier rl = Identifier.parse(s);
-                Block b = BuiltInRegistries.BLOCK.get(rl);
+                Block b = BuiltInRegistries.BLOCK.getValue(rl);
                 if (b != null && b != Blocks.AIR)
                     out.add(b.defaultBlockState());
             } catch (Throwable ignored) {
@@ -231,7 +231,7 @@ public final class PresetService {
         for (String s : ids) {
             try {
                 Identifier rl = Identifier.parse(s);
-                Block b = BuiltInRegistries.BLOCK.get(rl);
+                Block b = BuiltInRegistries.BLOCK.getValue(rl);
                 if (b != null && b != Blocks.AIR)
                     out.add(b.defaultBlockState());
             } catch (Throwable ignored) {

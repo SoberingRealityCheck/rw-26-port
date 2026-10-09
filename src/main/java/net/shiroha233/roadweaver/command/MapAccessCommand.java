@@ -1,6 +1,6 @@
 package net.shiroha233.roadweaver.command;
 
-import com.mojang.authlib.GameProfile;
+import net.minecraft.server.players.NameAndId;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -25,7 +25,7 @@ public final class MapAccessCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("roadweaver")
-                .requires(source -> source.hasPermission(2))
+                .requires(source -> source.permissions().hasPermission(net.minecraft.server.permissions.Permissions.COMMANDS_GAMEMASTER))
                 .then(Commands.literal("mapaccess")
                         .then(Commands.literal("info")
                                 .executes(context -> info(context.getSource())))
@@ -68,11 +68,11 @@ public final class MapAccessCommand {
         return changed ? 1 : 0;
     }
 
-    private static int allow(CommandSourceStack source, Collection<GameProfile> profiles) {
+    private static int allow(CommandSourceStack source, Collection<NameAndId> profiles) {
         MinecraftServer server = source.getServer();
         List<String> names = new ArrayList<>();
         int changed = 0;
-        for (GameProfile profile : profiles) {
+        for (NameAndId profile : profiles) {
             UUID playerId = profile.id();
             if (playerId == null) {
                 continue;
@@ -92,11 +92,11 @@ public final class MapAccessCommand {
         return changed;
     }
 
-    private static int deny(CommandSourceStack source, Collection<GameProfile> profiles) {
+    private static int deny(CommandSourceStack source, Collection<NameAndId> profiles) {
         MinecraftServer server = source.getServer();
         List<String> names = new ArrayList<>();
         int changed = 0;
-        for (GameProfile profile : profiles) {
+        for (NameAndId profile : profiles) {
             UUID playerId = profile.id();
             if (playerId == null) {
                 continue;
@@ -120,7 +120,7 @@ public final class MapAccessCommand {
         return Component.translatable("command.roadweaver.mapaccess.mode." + mode.serializedName());
     }
 
-    private static String displayName(GameProfile profile, UUID playerId) {
+    private static String displayName(NameAndId profile, UUID playerId) {
         if (profile.name() != null && !profile.name().isBlank()) {
             return profile.name();
         }
@@ -132,8 +132,8 @@ public final class MapAccessCommand {
         if (online != null) {
             return online.getGameProfile().name();
         }
-        if (server.getProfileCache() != null) {
-            Optional<GameProfile> cached = server.getProfileCache().get(playerId);
+        if (server.services().nameToIdCache() != null) {
+            Optional<NameAndId> cached = server.services().nameToIdCache().get(playerId);
             if (cached.isPresent() && cached.get().name() != null && !cached.get().name().isBlank()) {
                 return cached.get().name();
             }

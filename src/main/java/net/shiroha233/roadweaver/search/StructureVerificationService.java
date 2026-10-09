@@ -93,13 +93,13 @@ public final class StructureVerificationService {
                 continue;
             }
 
-            Structure structure = structureRegistry.get(rl);
+            Structure structure = structureRegistry.getValue(rl);
             if (structure == null) {
                 result.add(info);
                 continue;
             }
 
-            var structureHolder = structureRegistry.getHolder(rl);
+            var structureHolder = structureRegistry.get(rl);
             if (structureHolder.isEmpty()) {
                 result.add(info);
                 continue;

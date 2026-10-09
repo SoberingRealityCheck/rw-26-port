@@ -3,7 +3,7 @@ package net.shiroha233.roadweaver.planning.fabric;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -85,6 +85,6 @@ public final class ServerPlanningHooks {
             SignTextService.clearPending();
         });
 
-        ServerWorldEvents.UNLOAD.register((server, level) -> CacheManager.onDimensionUnload(level));
+        ServerLevelEvents.UNLOAD.register((server, level) -> CacheManager.onDimensionUnload(level));
     }
 }

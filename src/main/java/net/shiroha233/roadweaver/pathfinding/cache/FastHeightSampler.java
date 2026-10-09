@@ -2,38 +2,31 @@ package net.shiroha233.roadweaver.pathfinding.cache;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.NoiseRouter;
-import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.minecraft.world.level.levelgen.RandomState;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 快速高度采样器
+ *
+ * Port note (26.2): the router no longer has initialDensityWithoutJaggedness. It has
+ * preliminarySurfaceLevel, a find_top_surface density that returns the surface y directly
+ * (multiples of its cell height, 8 in vanilla). Before, this class scanned downward itself and
+ * stopped at density > 0.390625, a vanilla-only constant. Now the datapack (Terralith, Tectonic)
+ * defines where "surface" is, which is closer to what chunk generation uses.
  */
 public final class FastHeightSampler {
 
-    private static final double DENSITY_THRESHOLD = 0.390625D;
-
-    private final DensityFunction initialDensity;
-    private final int minY;
-    private final int maxY;
-    private final int cellHeight;
+    private final DensityFunction preliminarySurfaceLevel;
     private ConcurrentHashMap<Long, Integer> heightCache = new ConcurrentHashMap<>();
 
-    private FastHeightSampler(DensityFunction initialDensity, NoiseSettings settings) {
-        this.initialDensity = initialDensity;
-        this.minY = settings.minY();
-        this.maxY = minY + settings.height();
-        this.cellHeight = settings.getCellHeight();
+    private FastHeightSampler(DensityFunction preliminarySurfaceLevel) {
+        this.preliminarySurfaceLevel = preliminarySurfaceLevel;
     }
 
     public static FastHeightSampler create(ServerLevel level) {
-        var chunkSource = level.getChunkSource();
-        RandomState randomState = chunkSource.getGeneratorState().randomState();
-        NoiseRouter router = randomState.router();
-        NoiseSettings settings = getNoiseSettings(level);
-        return new FastHeightSampler(router.initialDensityWithoutJaggedness(), settings);
+        RandomState randomState = level.getChunkSource().getGeneratorState().randomState();
+        return new FastHeightSampler(randomState.router().preliminarySurfaceLevel());
     }
 
     public int sampleHeight(int x, int z) {
@@ -57,24 +50,12 @@ public final class FastHeightSampler {
     }
 
     private int computeHeight(int x, int z) {
-        for (int y = maxY; y >= minY; y -= cellHeight) {
-            double density = initialDensity.compute(
-                    new DensityFunction.SinglePointContext(x, y, z));
-            if (density > DENSITY_THRESHOLD) return y;
-        }
-        return minY;
+        // y is ignored by find_top_surface, it scans from its own upper bound
+        return (int) preliminarySurfaceLevel.compute(new DensityFunction.SinglePointContext(x, 0, z));
     }
 
     private static long packXZ(int x, int z) {
         return ((long) x << 32) | (z & 0xFFFFFFFFL);
-    }
-
-    private static NoiseSettings getNoiseSettings(ServerLevel level) {
-        var generator = level.getChunkSource().getGenerator();
-        if (generator instanceof net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator noiseGen) {
-            return noiseGen.generatorSettings().value().noiseSettings();
-        }
-        return NoiseSettings.create(-64, 384, 1, 2);
     }
 
     /**

@@ -60,7 +60,7 @@ public final class WorldgenFingerprintService {
                 generatorIdentity(generator),
                 level.registryAccess(),
                 settingsHolder,
-                SharedConstants.getCurrentVersion().getDataVersion().getVersion(),
+                SharedConstants.getCurrentVersion().dataVersion().version(),
                 schemaVersion);
     }
 
@@ -102,7 +102,7 @@ public final class WorldgenFingerprintService {
     public static String generatorIdentity(ChunkGenerator generator) {
         Objects.requireNonNull(generator, "generator");
         String typeKey = generator.getTypeNameForDataFixer()
-                .map(key -> key.identifier().toString())
+                .map(Identifier::toString)
                 .orElse("unregistered");
         return typeKey + "|" + generator.getClass().getName();
     }

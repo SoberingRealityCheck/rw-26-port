@@ -130,7 +130,7 @@ public final class StructureAvoidanceService {
                     Structure structure = e.getKey();
                     for (long chunkLong : e.getValue()) {
                         ChunkPos cp = ChunkPos.unpack(chunkLong);
-                        SectionPos sp = SectionPos.of(cp, level.getMinSection());
+                        SectionPos sp = SectionPos.of(cp, level.getMinSectionY());
                         StructureStart start = sm.getStartForStructure(
                                 sp,
                                 structure,

@@ -35,7 +35,7 @@ public final class SpawnCabinPlacer {
         }
         
         Registry<Structure> structureRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
-        Structure structure = structureRegistry.get(STRUCTURE_ID);
+        Structure structure = structureRegistry.getValue(STRUCTURE_ID);
         
         if (!(structure instanceof SpawnCabinStructure spawnCabin)) {
             return false;

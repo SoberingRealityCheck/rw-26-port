@@ -57,7 +57,7 @@ public final class StructurePredictor {
         if (!isOverworld(level)) return List.of();
         RegistryAccess registryAccess = level.registryAccess();
         Registry<StructureSet> setRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE_SET);
-        Optional<Holder.Reference<StructureSet>> optVillages = setRegistry.getHolder(BuiltinStructureSets.VILLAGES);
+        Optional<Holder.Reference<StructureSet>> optVillages = setRegistry.get(BuiltinStructureSets.VILLAGES);
         if (optVillages.isEmpty())
             return List.of();
         StructureSet set = optVillages.get().value();
@@ -179,7 +179,7 @@ public final class StructurePredictor {
             }
 
             String labelId = matchedStructures.stream()
-                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
+                    .map(h -> h.unwrapKey().map(ResourceKey::identifier).map(Identifier::toString)
                             .orElse("structure"))
                     .findFirst().orElse("structure");
 
@@ -246,7 +246,7 @@ public final class StructurePredictor {
                     String chosenId = labelId;
                     for (Holder<Structure> h : matchedStructures) {
                         if (h.value().biomes().contains(sample)) {
-                            chosenId = h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
+                            chosenId = h.unwrapKey().map(ResourceKey::identifier).map(Identifier::toString)
                                     .orElse(labelId);
                             break;
                         }
@@ -284,7 +284,7 @@ public final class StructurePredictor {
 
         List<StructureInfo> result = new ArrayList<>();
 
-        for (Holder.Reference<StructureSet> holder : setRegistry.holders().toList()) {
+        for (Holder.Reference<StructureSet> holder : setRegistry.listElements().toList()) {
             StructureSet set = holder.value();
             StructurePlacement placement = set.placement();
             if (!(placement instanceof RandomSpreadStructurePlacement rssp))
@@ -336,7 +336,7 @@ public final class StructurePredictor {
             int endJ = Math.floorDiv(maxZ, spacing);
 
             String labelId = matchedStructures.stream()
-                    .map(h -> h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
+                    .map(h -> h.unwrapKey().map(ResourceKey::identifier).map(Identifier::toString)
                             .orElse("structure"))
                     .findFirst().orElse("structure");
 
@@ -363,7 +363,7 @@ public final class StructurePredictor {
                     String chosenId = labelId;
                     for (Holder<Structure> h : matchedStructures) {
                         if (h.value().biomes().contains(sample)) {
-                            chosenId = h.unwrapKey().map(ResourceKey::location).map(Identifier::toString)
+                            chosenId = h.unwrapKey().map(ResourceKey::identifier).map(Identifier::toString)
                                     .orElse(labelId);
                             break;
                         }

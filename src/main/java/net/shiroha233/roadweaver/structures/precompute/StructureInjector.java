@@ -53,7 +53,7 @@ public final class StructureInjector {
         
         for (PendingRoadsideStructure pendingStructure : pending) {
             try {
-                Structure structure = structureRegistry.get(pendingStructure.structureId());
+                Structure structure = structureRegistry.getValue(pendingStructure.structureId());
                 if (structure == null) {
                     LOGGER.warn("Structure {} not found in registry, skipping", pendingStructure.structureId());
                     continue;
@@ -123,7 +123,7 @@ public final class StructureInjector {
 
         for (PendingRoadsideVillage village : villages) {
             try {
-                Structure structure = structureRegistry.get(village.structureId());
+                Structure structure = structureRegistry.getValue(village.structureId());
                 if (!(structure instanceof RoadsideVillageStructure)) {
                     LOGGER.warn("Roadside village structure {} is not available", village.structureId());
                     continue;

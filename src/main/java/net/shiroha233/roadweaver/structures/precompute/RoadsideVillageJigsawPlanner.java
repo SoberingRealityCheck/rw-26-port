@@ -62,7 +62,7 @@ public final class RoadsideVillageJigsawPlanner {
                                                                          List<BoundingBox> occupied) {
         Identifier poolId = slot.poolId(style);
         ResourceKey<StructureTemplatePool> poolKey = ResourceKey.create(Registries.TEMPLATE_POOL, poolId);
-        Optional<Holder.Reference<StructureTemplatePool>> holder = pools.getHolder(poolKey);
+        Optional<Holder.Reference<StructureTemplatePool>> holder = pools.get(poolKey);
         if (holder.isEmpty() || holder.get().value().size() == 0) {
             LOGGER.debug("Roadside village pool {} is not available", poolId);
             return Optional.empty();
@@ -104,7 +104,7 @@ public final class RoadsideVillageJigsawPlanner {
         }
     }
 
-    private static List<StructureTemplate.StructureBlockInfo> safeJigsawBlocks(StructureTemplateManager templateManager,
+    private static List<StructureTemplate.JigsawBlockInfo> safeJigsawBlocks(StructureTemplateManager templateManager,
                                                                                StructurePoolElement element,
                                                                                Rotation rotation,
                                                                                RandomSource random) {
@@ -126,14 +126,14 @@ public final class RoadsideVillageJigsawPlanner {
 
         for (int i = 0; i < ROTATION_ATTEMPTS; i++) {
             Rotation rotation = rotations[i % rotations.length];
-            List<StructureTemplate.StructureBlockInfo> jigsaws = safeJigsawBlocks(templateManager, element, rotation, random);
-            for (StructureTemplate.StructureBlockInfo jigsaw : jigsaws) {
-                Direction front = JigsawBlock.getFrontFacing(jigsaw.state());
+            List<StructureTemplate.JigsawBlockInfo> jigsaws = safeJigsawBlocks(templateManager, element, rotation, random);
+            for (StructureTemplate.JigsawBlockInfo jigsaw : jigsaws) {
+                Direction front = JigsawBlock.getFrontFacing(jigsaw.info().state());
                 if (front != slot.outward().getOpposite()) {
                     continue;
                 }
 
-                BlockPos position = slot.anchor().subtract(jigsaw.pos());
+                BlockPos position = slot.anchor().subtract(jigsaw.info().pos());
                 Optional<BoundingBox> maybeBox = safeBoundingBox(templateManager, element, position, rotation);
                 if (maybeBox.isEmpty()) {
                     continue;
