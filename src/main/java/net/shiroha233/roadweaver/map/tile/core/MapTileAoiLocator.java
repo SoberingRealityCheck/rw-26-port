@@ -16,7 +16,7 @@ public final class MapTileAoiLocator {
         if (player == null) {
             throw new IllegalArgumentException("player must not be null");
         }
-        Identifier dimensionId = player.serverLevel().dimension().location();
+        Identifier dimensionId = player.level().dimension().location();
         int radiusBlocks = dynamicPlanningRadiusBlocks();
         return new MapTileAoi(
                 dimensionId,

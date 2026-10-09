@@ -77,8 +77,8 @@ public final class StructureDiscoveryService {
         }
         RegistryAccess access = level.registryAccess();
         discoverFromRegistries(
-                access.registryOrThrow(Registries.STRUCTURE),
-                access.registryOrThrow(Registries.LEVEL_STEM));
+                access.lookupOrThrow(Registries.STRUCTURE),
+                access.lookupOrThrow(Registries.LEVEL_STEM));
     }
 
     /** 从注册表收集结构和标签 */
@@ -99,7 +99,7 @@ public final class StructureDiscoveryService {
 
             Map<Identifier, StructureEntry> structureMap = new LinkedHashMap<>();
             for (var entry : structureRegistry.entrySet()) {
-                Identifier id = entry.getKey().location();
+                Identifier id = entry.getKey().identifier();
                 Structure structure = entry.getValue();
                 boolean isVanilla = "minecraft".equals(id.getNamespace());
                 String displayName = formatDisplayName(id);
@@ -129,8 +129,8 @@ public final class StructureDiscoveryService {
             return;
         }
         try {
-            Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
-            Registry<LevelStem> levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
+            Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);
+            Registry<LevelStem> levelStemRegistry = registryAccess.lookupOrThrow(Registries.LEVEL_STEM);
             discoverFromRegistries(structureRegistry, levelStemRegistry);
         } catch (Exception e) {
             LOGGER.error("结构发现失败", e);
@@ -234,7 +234,7 @@ public final class StructureDiscoveryService {
                 List<StructureEntry> tagStructures = new ArrayList<>();
                 for (Holder.Reference<Structure> h : registry.holders().toList()) {
                     if (h.is(tagKey)) {
-                        StructureEntry se = structureMap.get(h.key().location());
+                        StructureEntry se = structureMap.get(h.key().identifier());
                         if (se != null) tagStructures.add(se);
                     }
                 }

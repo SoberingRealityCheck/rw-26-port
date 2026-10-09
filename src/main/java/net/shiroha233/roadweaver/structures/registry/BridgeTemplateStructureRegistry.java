@@ -227,10 +227,10 @@ public final class BridgeTemplateStructureRegistry {
         List<BridgeTemplate> result = new ArrayList<>();
         RegistryAccess registryAccess = level.registryAccess();
 
-        Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);
 
         for (var entry : structureRegistry.entrySet()) {
-            Identifier id = entry.getKey().location();
+            Identifier id = entry.getKey().identifier();
             Structure structure = entry.getValue();
 
             if (structure instanceof BridgeTemplateStructure roadsideStructure) {

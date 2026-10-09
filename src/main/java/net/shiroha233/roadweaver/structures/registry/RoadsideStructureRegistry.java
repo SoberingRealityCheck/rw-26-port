@@ -40,10 +40,10 @@ public final class RoadsideStructureRegistry {
     private static List<RoadsideStructureEntry> loadFromRegistry(RegistryAccess registryAccess) {
         List<RoadsideStructureEntry> result = new ArrayList<>();
         
-        Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);
         
         for (var entry : structureRegistry.entrySet()) {
-            Identifier id = entry.getKey().location();
+            Identifier id = entry.getKey().identifier();
             Structure structure = entry.getValue();
             
             if (structure instanceof RoadsideStructure roadsideStructure) {

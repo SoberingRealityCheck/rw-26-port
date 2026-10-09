@@ -62,7 +62,7 @@ public final class SignTextService {
 
     public static void onChunkReady(ServerLevel level, ChunkPos chunkPos) {
         if (level == null || chunkPos == null || !Level.OVERWORLD.equals(level.dimension())) return;
-        markChunkDirty(level, chunkPos.x, chunkPos.z);
+        markChunkDirty(level, chunkPos.x(), chunkPos.z());
     }
 
     public static void onDimensionUnload(ServerLevel level) {
@@ -203,7 +203,7 @@ public final class SignTextService {
 
     private static void markChunkDirty(ServerLevel level, int chunkX, int chunkZ) {
         if (level == null || !Level.OVERWORLD.equals(level.dimension())) return;
-        long key = ChunkPos.asLong(chunkX, chunkZ);
+        long key = ChunkPos.pack(chunkX, chunkZ);
         if (DIRTY_MARKS.putIfAbsent(key, Boolean.TRUE) != null) return;
         DIRTY_CHUNKS.add(key);
     }

@@ -56,7 +56,7 @@ public class PathFeature extends Feature<PathFeatureConfig> {
         if (!cfg.roadAppearance().roadsEnabled())
             return false;
 
-        ChunkPos currentChunk = new ChunkPos(ctx.origin());
+        ChunkPos currentChunk = ChunkPos.containing(ctx.origin());
         RoadChunkPlan plan = RoadWorldgenPlanCache.get(server, currentChunk, cfg);
         if (plan.slices().isEmpty())
             return false;

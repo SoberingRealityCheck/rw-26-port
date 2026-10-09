@@ -41,7 +41,7 @@ public final class WorldgenFingerprintService {
 
     public static WorldgenFingerprint forLevel(ServerLevel level, int schemaVersion) {
         Objects.requireNonNull(level, "level");
-        String memoKey = level.dimension().location() + "|" + schemaVersion;
+        String memoKey = level.dimension().identifier() + "|" + schemaVersion;
         return MEMO.computeIfAbsent(memoKey, key -> computeForLevel(level, schemaVersion));
     }
 
@@ -55,7 +55,7 @@ public final class WorldgenFingerprintService {
                 ? noiseGenerator.generatorSettings()
                 : null;
         return create(
-                level.dimension().location(),
+                level.dimension().identifier(),
                 level.getSeed(),
                 generatorIdentity(generator),
                 level.registryAccess(),
@@ -102,7 +102,7 @@ public final class WorldgenFingerprintService {
     public static String generatorIdentity(ChunkGenerator generator) {
         Objects.requireNonNull(generator, "generator");
         String typeKey = generator.getTypeNameForDataFixer()
-                .map(key -> key.location().toString())
+                .map(key -> key.identifier().toString())
                 .orElse("unregistered");
         return typeKey + "|" + generator.getClass().getName();
     }

@@ -22,7 +22,7 @@ public record PendingRoadsideVillage(
     List<PendingRoadsideVillageSlot> slots
 ) {
     public long chunkKey() {
-        return originChunk.toLong();
+        return originChunk.pack();
     }
 
     public BlockPos center() {

@@ -56,7 +56,7 @@ public final class StructurePredictor {
             boolean biomePrefilter) {
         if (!isOverworld(level)) return List.of();
         RegistryAccess registryAccess = level.registryAccess();
-        Registry<StructureSet> setRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE_SET);
+        Registry<StructureSet> setRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE_SET);
         Optional<Holder.Reference<StructureSet>> optVillages = setRegistry.getHolder(BuiltinStructureSets.VILLAGES);
         if (optVillages.isEmpty())
             return List.of();
@@ -65,7 +65,7 @@ public final class StructurePredictor {
         if (!(placement instanceof RandomSpreadStructurePlacement rssp))
             return List.of();
 
-        BlockPos spawn = level.getSharedSpawnPos();
+        BlockPos spawn = level.getRespawnData().globalPos().pos();
         int cx = spawn.getX() >> 4;
         int cz = spawn.getZ() >> 4;
         int minX = cx - radiusChunks;
@@ -102,8 +102,8 @@ public final class StructurePredictor {
                 int baseX = i * spacing;
                 int baseZ = j * spacing;
                 ChunkPos candidate = rssp.getPotentialStructureChunk(seed, baseX, baseZ);
-                int x = candidate.x;
-                int z = candidate.z;
+                int x = candidate.x();
+                int z = candidate.z();
                 if (x < minX || x > maxX || z < minZ || z > maxZ)
                     continue;
                 if (!placement.isStructureChunk(state, x, z))
@@ -155,7 +155,7 @@ public final class StructurePredictor {
                 Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                 if (key.isEmpty())
                     continue;
-                Identifier id = key.get().location();
+                Identifier id = key.get().identifier();
                 if (filters.matches(structureHolder, id)) {
                     matchedStructures.add(structureHolder);
                 }
@@ -169,7 +169,7 @@ public final class StructurePredictor {
                     Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                     if (key.isEmpty())
                         continue;
-                    Identifier id = key.get().location();
+                    Identifier id = key.get().identifier();
                     if (!filters.isBlacklisted(structureHolder, id)) {
                         matchedStructures.add(structureHolder);
                     }
@@ -189,8 +189,8 @@ public final class StructurePredictor {
                     continue;
                 }
                 for (ChunkPos cp : ring) {
-                    int x = cp.x;
-                    int z = cp.z;
+                    int x = cp.x();
+                    int z = cp.z();
                     if (x < minChunkX || x > maxChunkX || z < minChunkZ || z > maxChunkZ)
                         continue;
                     if (!placement.isStructureChunk(state, x, z))
@@ -226,8 +226,8 @@ public final class StructurePredictor {
                     int baseX = i * spacing;
                     int baseZ = j * spacing;
                     ChunkPos candidate = rssp.getPotentialStructureChunk(level.getSeed(), baseX, baseZ);
-                    int x = candidate.x;
-                    int z = candidate.z;
+                    int x = candidate.x();
+                    int z = candidate.z();
                     if (x < minChunkX || x > maxChunkX || z < minChunkZ || z > maxChunkZ)
                         continue;
                     if (!placement.isStructureChunk(state, x, z))
@@ -266,9 +266,9 @@ public final class StructurePredictor {
             List<String> blacklist) {
         if (!isOverworld(level)) return List.of();
         RegistryAccess access = level.registryAccess();
-        Registry<StructureSet> setRegistry = access.registryOrThrow(Registries.STRUCTURE_SET);
+        Registry<StructureSet> setRegistry = access.lookupOrThrow(Registries.STRUCTURE_SET);
 
-        BlockPos spawn = level.getSharedSpawnPos();
+        BlockPos spawn = level.getRespawnData().globalPos().pos();
         int cx = spawn.getX() >> 4;
         int cz = spawn.getZ() >> 4;
         int minX = cx - radiusChunks;
@@ -296,7 +296,7 @@ public final class StructurePredictor {
                 Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                 if (key.isEmpty())
                     continue;
-                Identifier id = key.get().location();
+                Identifier id = key.get().identifier();
                 if (filters.matches(structureHolder, id)) {
                     matchedStructures.add(structureHolder);
                 }
@@ -310,7 +310,7 @@ public final class StructurePredictor {
                     Optional<ResourceKey<Structure>> key = structureHolder.unwrapKey();
                     if (key.isEmpty())
                         continue;
-                    Identifier id = key.get().location();
+                    Identifier id = key.get().identifier();
                     if (!filters.isBlacklisted(structureHolder, id)) {
                         matchedStructures.add(structureHolder);
                     }
@@ -345,8 +345,8 @@ public final class StructurePredictor {
                     int baseX = i * spacing;
                     int baseZ = j * spacing;
                     ChunkPos candidate = rssp.getPotentialStructureChunk(level.getSeed(), baseX, baseZ);
-                    int x = candidate.x;
-                    int z = candidate.z;
+                    int x = candidate.x();
+                    int z = candidate.z();
                     if (x < minX || x > maxX || z < minZ || z > maxZ)
                         continue;
                     if (!placement.isStructureChunk(state, x, z))

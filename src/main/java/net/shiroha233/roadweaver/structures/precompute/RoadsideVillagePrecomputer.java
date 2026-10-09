@@ -103,14 +103,14 @@ public final class RoadsideVillagePrecomputer {
                 (bounds.minY() + bounds.maxY()) / 2,
                 (bounds.minZ() + bounds.maxZ()) / 2
             );
-            ChunkPos originChunk = new ChunkPos(villageCenter);
-            if (!usedOriginChunks.add(originChunk.toLong())) {
+            ChunkPos originChunk = ChunkPos.containing(villageCenter);
+            if (!usedOriginChunks.add(originChunk.pack())) {
                 continue;
             }
 
             Identifier placementId = Identifier.fromNamespaceAndPath(
                 MOD_ID,
-                "roadside_village/" + originChunk.x + "_" + originChunk.z + "_" + candidate.startIndex()
+                "roadside_village/" + originChunk.x() + "_" + originChunk.z() + "_" + candidate.startIndex()
             );
 
             PendingRoadsideVillage village = new PendingRoadsideVillage(
@@ -129,7 +129,7 @@ public final class RoadsideVillagePrecomputer {
                 acceptedBounds.add(bounds);
                 placedCount++;
                 LOGGER.debug("Precomputed roadside village {} style={} slots={} window=[{}, {}] score={} chunk=[{}, {}]",
-                    placementId, style, slots.size(), candidate.startIndex(), candidate.endIndex(), candidate.score(), originChunk.x, originChunk.z);
+                    placementId, style, slots.size(), candidate.startIndex(), candidate.endIndex(), candidate.score(), originChunk.x(), originChunk.z());
             }
         }
 

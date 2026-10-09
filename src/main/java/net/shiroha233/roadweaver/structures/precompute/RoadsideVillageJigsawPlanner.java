@@ -37,7 +37,7 @@ public final class RoadsideVillageJigsawPlanner {
     public static List<PoolElementStructurePiece> createPieces(ServerLevel level,
                                                                PendingRoadsideVillage village,
                                                                StructureTemplateManager templateManager) {
-        Registry<StructureTemplatePool> pools = level.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> pools = level.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
         RandomSource random = RandomSource.create(village.seed());
         List<PoolElementStructurePiece> pieces = new ArrayList<>();
         List<BoundingBox> occupied = new ArrayList<>();

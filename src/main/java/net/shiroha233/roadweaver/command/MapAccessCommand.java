@@ -73,7 +73,7 @@ public final class MapAccessCommand {
         List<String> names = new ArrayList<>();
         int changed = 0;
         for (GameProfile profile : profiles) {
-            UUID playerId = profile.getId();
+            UUID playerId = profile.id();
             if (playerId == null) {
                 continue;
             }
@@ -97,7 +97,7 @@ public final class MapAccessCommand {
         List<String> names = new ArrayList<>();
         int changed = 0;
         for (GameProfile profile : profiles) {
-            UUID playerId = profile.getId();
+            UUID playerId = profile.id();
             if (playerId == null) {
                 continue;
             }
@@ -121,8 +121,8 @@ public final class MapAccessCommand {
     }
 
     private static String displayName(GameProfile profile, UUID playerId) {
-        if (profile.getName() != null && !profile.getName().isBlank()) {
-            return profile.getName();
+        if (profile.name() != null && !profile.name().isBlank()) {
+            return profile.name();
         }
         return playerId.toString();
     }
@@ -130,12 +130,12 @@ public final class MapAccessCommand {
     private static String resolvePlayerName(MinecraftServer server, UUID playerId) {
         ServerPlayer online = server.getPlayerList().getPlayer(playerId);
         if (online != null) {
-            return online.getGameProfile().getName();
+            return online.getGameProfile().name();
         }
         if (server.getProfileCache() != null) {
             Optional<GameProfile> cached = server.getProfileCache().get(playerId);
-            if (cached.isPresent() && cached.get().getName() != null && !cached.get().getName().isBlank()) {
-                return cached.get().getName();
+            if (cached.isPresent() && cached.get().name() != null && !cached.get().name().isBlank()) {
+                return cached.get().name();
             }
         }
         return playerId.toString();

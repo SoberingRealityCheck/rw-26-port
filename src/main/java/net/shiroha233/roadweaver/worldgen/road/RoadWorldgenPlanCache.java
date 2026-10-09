@@ -87,7 +87,7 @@ public final class RoadWorldgenPlanCache {
         private volatile long globalRevision;
 
         RoadChunkPlan get(ServerLevel level, ChunkPos chunkPos, PlanConfig requested) {
-            long key = chunkPos.toLong();
+            long key = chunkPos.pack();
             while (true) {
                 CachedPlan cached = plans.get(key);
                 long expectedRevision = revision(key);
@@ -126,7 +126,7 @@ public final class RoadWorldgenPlanCache {
                 int chunkZ = ChunkPos.getZ(packed);
                 for (int deltaZ = -1; deltaZ <= 1; deltaZ++) {
                     for (int deltaX = -1; deltaX <= 1; deltaX++) {
-                        long affected = ChunkPos.asLong(chunkX + deltaX, chunkZ + deltaZ);
+                        long affected = ChunkPos.pack(chunkX + deltaX, chunkZ + deltaZ);
                         chunkRevisions.put(affected, revision);
                         plans.remove(affected);
                     }

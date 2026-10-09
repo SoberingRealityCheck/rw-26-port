@@ -76,7 +76,7 @@ public final class StructureVerificationService {
                 server.getFixerUpper()
         );
 
-        Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);
 
         ArrayList<StructureInfo> result = new ArrayList<>();
 

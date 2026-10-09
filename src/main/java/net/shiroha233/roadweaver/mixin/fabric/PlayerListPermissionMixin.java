@@ -28,10 +28,10 @@ public abstract class PlayerListPermissionMixin {
     }
 
     private void sync(GameProfile profile) {
-        if (profile == null || profile.getId() == null) {
+        if (profile == null || profile.id() == null) {
             return;
         }
-        ServerPlayer player = getPlayer(profile.getId());
+        ServerPlayer player = getPlayer(profile.id());
         if (player != null) {
             MapAccessPlatformBridge.syncPlayer(player);
         }

@@ -109,7 +109,7 @@ public class SpawnCabinStructure extends Structure {
         );
         builder.addPiece(piece);
         
-        ChunkPos chunkPos = new ChunkPos(pos);
+        ChunkPos chunkPos = ChunkPos.containing(pos);
         PiecesContainer container = builder.build();
         StructureStart start = new StructureStart(this, chunkPos, 0, container);
         

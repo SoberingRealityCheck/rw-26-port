@@ -124,7 +124,7 @@ public final class RoadGenerationService {
             if (Thread.currentThread().isInterrupted()) return false;
 
             var reg = level.registryAccess()
-                    .registryOrThrow(net.minecraft.core.registries.Registries.CONFIGURED_FEATURE);
+                    .lookupOrThrow(net.minecraft.core.registries.Registries.CONFIGURED_FEATURE);
             ConfiguredFeature<?, ?> cf = reg.get(ROAD_CF_ID);
             PathFeatureConfig cfg = (cf != null && cf.config() instanceof PathFeatureConfig rfc) ? rfc : new PathFeatureConfig();
 
@@ -284,7 +284,7 @@ public final class RoadGenerationService {
             var server = level.getServer();
             if (server == null) return null;
             for (ServerPlayer p : server.getPlayerList().getPlayers()) {
-                if (p != null && p.serverLevel() == level) fresh.add(p);
+                if (p != null && p.level() == level) fresh.add(p);
             }
             cache.players = fresh;
             cache.lastTick = CURRENT_TICK;

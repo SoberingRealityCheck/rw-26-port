@@ -85,7 +85,7 @@ public enum BiomeCategory implements StringRepresentable {
         }
         
         Identifier biomeId = biome.unwrapKey()
-                .map(key -> key.location())
+                .map(key -> key.identifier())
                 .orElse(null);
         
         if (biomeId == null) {

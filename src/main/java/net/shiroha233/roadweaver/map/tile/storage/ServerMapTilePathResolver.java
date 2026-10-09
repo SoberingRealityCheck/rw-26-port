@@ -26,7 +26,7 @@ public final class ServerMapTilePathResolver {
     }
 
     public static Path dimensionRoot(ServerLevel level) {
-        return mapRoot(level).resolve(dimensionKey(level.dimension().location()));
+        return mapRoot(level).resolve(dimensionKey(level.dimension().identifier()));
     }
 
     public static Path layerRoot(ServerLevel level, MapTileLayer layer) {

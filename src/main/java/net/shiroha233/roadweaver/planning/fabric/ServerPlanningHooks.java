@@ -61,8 +61,8 @@ public final class ServerPlanningHooks {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             if ((tick++ % 20) == 0) {
                 for (ServerPlayer p : server.getPlayerList().getPlayers()) {
-                    if (Level.OVERWORLD.equals(p.serverLevel().dimension())) {
-                        SignTextService.onChunkReady(p.serverLevel(), p.chunkPosition());
+                    if (Level.OVERWORLD.equals(p.level().dimension())) {
+                        SignTextService.onChunkReady(p.level(), p.chunkPosition());
                         RoadPlanningService.planAroundPlayer(p);
                         IdleRoadGenerationService.tickPlayer(p);
                     }

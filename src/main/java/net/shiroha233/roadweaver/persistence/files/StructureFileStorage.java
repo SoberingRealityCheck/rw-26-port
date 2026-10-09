@@ -318,7 +318,7 @@ public final class StructureFileStorage {
     /** 同步落盘指定维度的脏状态。 */
     public static void flush(ServerLevel level) {
         if (level == null) return;
-        Entry entry = ENTRIES.get(FileStoragePathResolver.dimensionKey(level.dimension().location()));
+        Entry entry = ENTRIES.get(FileStoragePathResolver.dimensionKey(level.dimension().identifier()));
         if (entry != null) flushEntry(entry);
     }
 
@@ -395,7 +395,7 @@ public final class StructureFileStorage {
     // ==================== 条目与加载 ====================
 
     private static Entry entry(ServerLevel level) {
-        String key = FileStoragePathResolver.dimensionKey(level.dimension().location());
+        String key = FileStoragePathResolver.dimensionKey(level.dimension().identifier());
         Path path = FileStoragePathResolver.categoryRoot(level, CATEGORY).resolve(STATE_FILE);
         return ENTRIES.compute(key, (k, existing) -> {
             if (existing != null && existing.path.equals(path)) return existing;

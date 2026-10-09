@@ -53,7 +53,7 @@ public final class PlannedPathCache {
                 try {
                     store.save(key, fingerprint, immutablePath);
                 } catch (IOException failure) {
-                    LOGGER.warn("持久化待生成路径失败 dimension={} key={}", level.dimension().location(), key, failure);
+                    LOGGER.warn("持久化待生成路径失败 dimension={} key={}", level.dimension().identifier(), key, failure);
                 }
             }
         }
@@ -79,7 +79,7 @@ public final class PlannedPathCache {
             loaded.ifPresent(path -> memory.put(key, new Entry(fingerprint, path)));
             return loaded;
         } catch (IOException failure) {
-            LOGGER.warn("读取待生成路径失败 dimension={} key={}", level.dimension().location(), key, failure);
+            LOGGER.warn("读取待生成路径失败 dimension={} key={}", level.dimension().identifier(), key, failure);
             return Optional.empty();
         }
     }
@@ -92,7 +92,7 @@ public final class PlannedPathCache {
         try {
             store(level).delete(key);
         } catch (IOException failure) {
-            LOGGER.warn("删除已生成路径失败 dimension={} key={}", level.dimension().location(), key, failure);
+            LOGGER.warn("删除已生成路径失败 dimension={} key={}", level.dimension().identifier(), key, failure);
         }
     }
 
@@ -134,7 +134,7 @@ public final class PlannedPathCache {
                     config);
         } catch (RuntimeException failure) {
             LOGGER.warn("计算待生成路径指纹失败 dimension={}，仅使用内存路径",
-                    level.dimension().location(), failure);
+                    level.dimension().identifier(), failure);
             return null;
         }
     }

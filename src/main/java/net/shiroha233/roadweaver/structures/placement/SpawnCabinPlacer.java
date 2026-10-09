@@ -26,7 +26,7 @@ public final class SpawnCabinPlacer {
     public static boolean ensurePlaced(ServerLevel level) {
         if (level == null) return false;
         
-        BlockPos spawn = level.getSharedSpawnPos();
+        BlockPos spawn = level.getRespawnData().globalPos().pos();
         
         var provider = WorldDataProvider.getInstance();
         var locs = provider.getStructureLocations(level);
@@ -34,7 +34,7 @@ public final class SpawnCabinPlacer {
             return false;
         }
         
-        Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
         Structure structure = structureRegistry.get(STRUCTURE_ID);
         
         if (!(structure instanceof SpawnCabinStructure spawnCabin)) {

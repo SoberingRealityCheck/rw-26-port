@@ -53,7 +53,7 @@ public final class SegmentPaver {
             List<BlockState> baseMats;
             List<BlockState> slabs;
             if (roadType == 1) {
-                Identifier biomeId = world.getBiome(pos).unwrapKey().map(key -> key.location()).orElse(null);
+                Identifier biomeId = world.getBiome(pos).unwrapKey().map(key -> key.identifier()).orElse(null);
                 NaturalMaterials selected = naturalMaterials.computeIfAbsent(
                         biomeId, ignored -> resolveNaturalMaterials(world, pos, biomeId));
                 baseMats = selected.base();

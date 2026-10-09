@@ -45,7 +45,7 @@ public final class StructureInjector {
             return;
         }
         
-        Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = level.structureManager();
         StructureTemplateManager templateManager = level.getStructureManager();
         
@@ -102,7 +102,7 @@ public final class StructureInjector {
         
         if (injectedCount > 0) {
             LOGGER.debug("Injected {} roadside structures into chunk [{}, {}]", 
-                injectedCount, chunkPos.x, chunkPos.z);
+                injectedCount, chunkPos.x(), chunkPos.z());
         }
         
         PendingStructureStorage.markAsInjected(level, chunkPos);
@@ -115,7 +115,7 @@ public final class StructureInjector {
             return;
         }
 
-        Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> structureRegistry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = level.structureManager();
         StructureTemplateManager templateManager = level.getStructureManager();
         SectionPos sectionPos = SectionPos.of(chunkPos, 0);
@@ -149,7 +149,7 @@ public final class StructureInjector {
         }
 
         if (injectedCount > 0) {
-            LOGGER.debug("Injected {} roadside villages into chunk [{}, {}]", injectedCount, chunkPos.x, chunkPos.z);
+            LOGGER.debug("Injected {} roadside villages into chunk [{}, {}]", injectedCount, chunkPos.x(), chunkPos.z());
         }
 
         PendingRoadsideVillageStorage.markAsInjected(level, chunkPos);

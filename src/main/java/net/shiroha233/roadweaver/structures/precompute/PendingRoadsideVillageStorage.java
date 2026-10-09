@@ -54,7 +54,7 @@ public final class PendingRoadsideVillageStorage {
 
     public static List<PendingRoadsideVillage> getPendingVillages(ServerLevel level, ChunkPos chunkPos) {
         if (!isOverworld(level) || chunkPos == null) return Collections.emptyList();
-        long chunkKey = chunkPos.toLong();
+        long chunkKey = chunkPos.pack();
 
         if (INJECTED_CHUNKS.contains(chunkKey)) {
             return Collections.emptyList();
@@ -66,7 +66,7 @@ public final class PendingRoadsideVillageStorage {
 
     public static void markAsInjected(ServerLevel level, ChunkPos chunkPos) {
         if (!isOverworld(level) || chunkPos == null) return;
-        long chunkKey = chunkPos.toLong();
+        long chunkKey = chunkPos.pack();
         INJECTED_CHUNKS.add(chunkKey);
         PENDING.remove(chunkKey);
     }

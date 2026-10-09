@@ -19,7 +19,7 @@ public final class FileStoragePathResolver {
     }
 
     public static Path categoryRoot(ServerLevel level, String category) {
-        return root(level).resolve(category).resolve(dimensionKey(level.dimension().location()));
+        return root(level).resolve(category).resolve(dimensionKey(level.dimension().identifier()));
     }
 
     public static String dimensionKey(Identifier location) {
