@@ -8,3 +8,8 @@ libs/ holds Modrinth jars (not saved): cloth-config 26.2.155, architectury-api 2
 Fetch them with ../fetch.py <project> 26.2 <version> libs.
 
 Status 2026-10-09: does not compile. 1,010 errors in 140 of 382 files (first pass, real count is higher).
+
+## Update
+Server-only port compiles and boots on 26.2. See ../FINDINGS.md. Helpers: tools/fix.py (error-driven
+renames), tools/boot.sh (rebuild + boot a 26.2 server, needs rig/run26.py and jars26 in the job tmp dir,
+paths are hardcoded in boot.sh and need editing on another machine).
