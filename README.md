@@ -1,3 +1,9 @@
+# RoadWeaver (26.2 server-only port)
+
+Unofficial, server-only port of [RoadWeaver](https://github.com/shiroha-233/RoadWeaver) 2.3.1 to
+Minecraft 26.2 for private testing. All credit for the mod goes to its upstream author.
+MIT licensed, see LICENSE and NOTICE. If upstream ships a 26.x build, use that instead.
+
 # RoadWeaver 26.2 port scaffold
 
 Fabric-only, single module. Sources = upstream branch `1.21.1-Architectury` (2.3.1, commit 118e767,
