@@ -1,0 +1,32 @@
+// Fabric-only single-module build of RoadWeaver for MC 26.2.
+// Hack: upstream is Architectury multi-loader (common+fabric+neoforge). We merged
+// common+fabric into one source set and dropped the loaders we don't run.
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+repositories {
+	maven { url = 'https://maven.shedaniel.me/' }
+	maven { url = 'https://maven.terraformersmc.com/' }
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// jars from Modrinth, 26.2 builds (see libs/)
+	implementation fileTree(dir: 'libs', include: '*.jar')
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") { expand "version": project.version }
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.release = 25
+	options.encoding = 'UTF-8'
+	options.compilerArgs += ['-Xmaxerrs', '5000']
+}
+
+java { withSourcesJar() }
